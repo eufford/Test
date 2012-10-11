@@ -12,7 +12,7 @@
 * Author: Eufford Go Javier(Ej)
 * Date: Oct. 12, 2012
 **************************************************************/
-function fizzBuzzInt($nStart, $nFinish) {
+function fizzBuzzInt($nStart, $nFinish, $nWordWrap = 0) {
 	// Initialize result array
 	$aResult = array();
 
@@ -37,9 +37,16 @@ function fizzBuzzInt($nStart, $nFinish) {
 		$aResult[] = $sValue;
 	}
 
-	// Convert the result array into a string delimited by a space and return 
-	// the string value
-	return implode(' ', $aResult);
+	// Convert the result array into a string delimited by a space
+	$sReturn =  implode(' ', $aResult);
+
+	// If $nWordWrap is not 0 then wrap the return string to a specified number 
+	// of characters based on the parameter $nWordWrap delimited by "<br />\n" 
+	if ( $nWordWrap )
+		return wordwrap( $sReturn, $nWordWrap, "<br />\n" );
+
+	// If $nWordWrap is 0(default), just return the string as is
+	return $sReturn;
 }
 
 // Support for both command-line and GET parameters
@@ -47,9 +54,11 @@ function fizzBuzzInt($nStart, $nFinish) {
 if ( ini_get('register_argc_argv') ) {
         $nParam1 = !empty( $argv[1] ) ? $argv[1] : null;
         $nParam2 = !empty( $argv[2] ) ? $argv[2] : null;
+	$nParam3 = !empty( $argv[3] ) ? $argv[3] : 0;
 } else {
         $nParam1 = !empty( $_GET['start'] ) ? $_GET['start'] : null;
         $nParam2 = !empty( $_GET['finish'] ) ? $_GET['finish'] : null;
+	$nParam3 = !empty( $_GET['wrap'] ) ? $_GET['wrap'] : 0;
 }
 
 if ( empty( $nParam1 ) || empty( $nParam2 ) ) {
@@ -58,5 +67,5 @@ if ( empty( $nParam1 ) || empty( $nParam2 ) ) {
 }
 
 // Call the function with desired parameters
-echo fizzBuzzInt($nParam1, $nParam2) . "\n";
+echo fizzBuzzInt($nParam1, $nParam2, $nParam3) . "\n";
 ?>
