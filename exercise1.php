@@ -42,6 +42,21 @@ function fizzBuzzInt($nStart, $nFinish) {
 	return implode(' ', $aResult);
 }
 
+// Support for both command-line and GET parameters
+// $argv parameters are only available if you enabled register_argc_argv
+if ( ini_get('register_argc_argv') ) {
+        $nParam1 = !empty( $argv[1] ) ? $argv[1] : null;
+        $nParam2 = !empty( $argv[2] ) ? $argv[2] : null;
+} else {
+        $nParam1 = !empty( $_GET['start'] ) ? $_GET['start'] : null;
+        $nParam2 = !empty( $_GET['finish'] ) ? $_GET['finish'] : null;
+}
+
+if ( empty( $nParam1 ) || empty( $nParam2 ) ) {
+        echo 'No proper parameters supplied...' . "\n";
+        exit;
+}
+
 // Call the function with desired parameters
-echo fizzBuzzInt(12, 16) . "\n";
+echo fizzBuzzInt($nParam1, $nParam2) . "\n";
 ?>
